@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BayMons - Keuangan Pribadi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>BayMons</h1>
+        <p>Personal Finance Manager</p>
+    </header>
+
+    <main>
+
+        <section class="welcome-section">
+    <div>
+        <p class="welcome-label">PERSONAL FINANCE MANAGER</p>
+        <h2>Selamat datang di BayMons!</h2>
+        <p>Kelola uangmu dengan lebih terencana.</p>
+    </div>
+    <div class="welcome-icon">🌿</div>
+</section>
+
+        <section class="balance-card">
+    <div class="balance-heading">
+        <span>Total Saldo</span>
+        <span>💳</span>
+    </div>
+
+    <h2 id="balance">Rp0</h2>
+
+    <p>Saldo keuangan yang tersedia</p>
+</section>
+
+       <div class="summary-grid">
+
+    <section class="summary-card income-card">
+        <div class="summary-icon">📈</div>
+        <h3>Pemasukan</h3>
+        <p id="income">Rp0</p>
+    </section>
+
+    <section class="summary-card expense-card">
+        <div class="summary-icon">📉</div>
+        <h3>Pengeluaran</h3>
+        <p id="expense">Rp0</p>
+    </section>
+
+</div>
+
+<section class="add-transaction-section">
+    <h2>Tambah Transaksi</h2>
+
+    <label>Jenis Transaksi</label>
+    <select id="transactionType">
+        <option value="income">Pemasukan</option>
+        <option value="expense">Pengeluaran</option>
+    </select>
+<label>Kategori Pengeluaran</label>
+<select id="transactionCategory">
+    <option value="catering">🍱 Catering</option>
+    <option value="bensin">⛽ Bensin</option>
+    <option value="jajan">🎮 Jajan & Hiburan</option>
+    <option value="kuliah">📚 Perlengkapan Kuliah</option>
+    <option value="pulsa">📱 Pulsa & Internet</option>
+    <option value="tabungan">🐷 Tabungan</option>
+    <option value="cadangan">🛡️ Cadangan</option>
+</select>
+    <label>Nama Transaksi</label>
+    <input type="text" id="transactionName" placeholder="Contoh: Uang bulanan">
+
+    <label>Jumlah (Rp)</label>
+    <input type="number" id="transactionAmount" placeholder="Masukkan jumlah">
+
+    <button type="button" onclick="addTransaction()">
+        Simpan Transaksi
+    </button>
+</section>
+<section class="transaction-section">
+
+    <div class="section-heading">
+        <div>
+            <h2>Transaksi Terakhir</h2>
+            <p>Riwayat aktivitas keuanganmu</p>
+            <div class="transaction-filter">
+    <label for="monthFilter">Pilih Bulan:</label>
+    <input type="month" id="monthFilter" onchange="renderTransactions()">
+    <div class="transaction-search">
+    <input
+        type="text"
+        id="searchTransaction"
+        placeholder="🔍 Cari transaksi..."
+        oninput="renderTransactions()"
+    >
+</div>
+</div>
+        </div>
+
+        <span class="transaction-icon">🧾</span>
+    </div>
+
+    <div class="empty-transaction">
+        <div>📭</div>
+        <h3>Belum Ada Transaksi</h3>
+        <p>Transaksi yang kamu catat akan muncul di sini.</p>
+    </div>
+
+</section>
+
+   <section class="statistics-section">
+    <div class="statistics-heading">
+        <div>
+            <p class="statistics-label">FINANCIAL OVERVIEW</p>
+            <h2>Statistik Keuangan</h2>
+            <p>Ringkasan aktivitas keuanganmu.</p>
+        </div>
+        <div class="statistics-icon">📊</div>
+    </div>
+
+    <div class="statistics-grid">
+        <div class="statistics-card">
+            <h3>Total Pemasukan</h3>
+            <p id="statsIncome">Rp0</p>
+        </div>
+
+        <div class="statistics-card">
+            <h3>Total Pengeluaran</h3>
+            <p id="statsExpense">Rp0</p>
+        </div>
+
+        <div class="statistics-card">
+            <h3>Total Tabungan</h3>
+            <p id="statsSavings">Rp0</p>
+        </div>
+    </div>
+    <div class="chart-container">
+    <h3>Perbandingan Pemasukan & Pengeluaran</h3>
+
+    <div class="chart-bars">
+        <div class="chart-item">
+            <div class="chart-bar income-bar" id="incomeBar"></div>
+            <p>Pemasukan</p>
+            <strong id="chartIncome">Rp0</strong>
+        </div>
+
+        <div class="chart-item">
+            <div class="chart-bar expense-bar" id="expenseBar"></div>
+            <p>Pengeluaran</p>
+            <strong id="chartExpense">Rp0</strong>
+        </div>
+    </div>
+</div>
+<div class="chart-container">
+    <h3>Pengeluaran per Kategori</h3>
+    <div id="categoryChart"></div>
+</div>
+</section>     
+<section class="budget-section">
+
+    <div class="budget-heading">
+        <div>
+            <p class="budget-label">MONTHLY PLANNER</p>
+            <h2>Anggaran Saya</h2>
+            <p>Pantau penggunaan uang setiap kategori.</p>
+        </div>
+
+        <div class="budget-icon">💰</div>
+    </div>
+
+    <div id="budgetList"></div>
+
+</section>
+
+
+    </main>
+
+
+<script>
+const savedData = JSON.parse(
+    localStorage.getItem("baymonsData") || "{}"
+);
+const categories = [
+    { id: "catering", name: "🍱 Catering", budget: 500000 },
+    { id: "bensin", name: "⛽ Bensin", budget: 150000 },
+    { id: "jajan", name: "🎮 Jajan & Hiburan", budget: 30000 },
+    { id: "kuliah", name: "📚 Perlengkapan Kuliah", budget: 100000 },
+    { id: "pulsa", name: "📱 Pulsa & Internet", budget: 100000 },
+    { id: "tabungan", name: "🐷 Tabungan", budget: 100000, savings: true },
+    { id: "cadangan", name: "🛡️ Cadangan", budget: 20000 }
+].map(item => ({
+    ...item,
+    budget: savedData[item.id]?.budget ?? item.budget,
+    used: savedData[item.id]?.used ?? 0
+}));
+
+let transactions = JSON.parse(
+    localStorage.getItem("baymonsTransactions") || "[]"
+);
+
+function addTransaction() {
+    const type = document.getElementById("transactionType").value;
+    const name = document.getElementById("transactionName").value.trim();
+    const amount = Number(
+        document.getElementById("transactionAmount").value
+    );
+
+    if (!name || amount <= 0 || !Number.isFinite(amount)) {
+        alert("Isi nama dan jumlah transaksi dengan benar!");
+        return;
+    }
+
+   const category = document.getElementById("transactionCategory").value;
+
+transactions.unshift({
+    type: type,
+    name: name,
+    amount: amount,
+    category: type === "expense" ? category : null,
+    date: [
+    new Date().getFullYear(),
+    String(new Date().getMonth() + 1).padStart(2, "0"),
+    String(new Date().getDate()).padStart(2, "0")
+].join("-")
+});
+
+    localStorage.setItem(
+        "baymonsTransactions",
+        JSON.stringify(transactions)
+    );
+if (type === "expense") {
+    const selectedCategory = categories.find(
+        item => item.id === category
+    );
+
+    if (selectedCategory) {
+        selectedCategory.used += amount;
+
+        document.getElementById("spent-" + category).value =
+            selectedCategory.used;
+
+        updateCategory(category);
+    }
+}
+    document.getElementById("transactionName").value = "";
+    document.getElementById("transactionAmount").value = "";
+
+    renderTransactions();
+}
+
+function deleteTransaction(index) {
+    const confirmDelete = confirm(
+        "Yakin ingin menghapus transaksi ini?"
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const deletedTransaction = transactions[index];
+
+transactions.splice(index, 1);
+
+if (
+    deletedTransaction.type === "expense" &&
+    deletedTransaction.category
+) {
+    const selectedCategory = categories.find(
+        item => item.id === deletedTransaction.category
+    );
+
+    if (selectedCategory) {
+        selectedCategory.used = Math.max(
+            0,
+            selectedCategory.used - deletedTransaction.amount
+        );
+
+        updateCategory(selectedCategory.id);
+    }
+}
+
+    localStorage.setItem(
+        "baymonsTransactions",
+        JSON.stringify(transactions)
+    );
+
+    renderTransactions();
+}
+
+function renderTransactions() {
+    const income = transactions
+        .filter(item => item.type === "income")
+        .reduce((total, item) => total + item.amount, 0);
+
+    const expense = transactions
+        .filter(item => item.type === "expense")
+        .reduce((total, item) => total + item.amount, 0);
+const savings = categories.find(
+    item => item.id === "tabungan"
+);
+
+document.getElementById("statsIncome").textContent =
+    formatRupiah(income);
+
+document.getElementById("statsExpense").textContent =
+    formatRupiah(expense);
+
+document.getElementById("statsSavings").textContent =
+    formatRupiah(savings ? savings.used : 0);
+    const maxAmount = Math.max(income, expense, 1);
+
+document.getElementById("incomeBar").style.height =
+    Math.max((income / maxAmount) * 180, 10) + "px";
+
+document.getElementById("expenseBar").style.height =
+    Math.max((expense / maxAmount) * 180, 10) + "px";
+
+document.getElementById("chartIncome").textContent =
+    formatRupiah(income);
+
+document.getElementById("chartExpense").textContent =
+    formatRupiah(expense);
+        const categoryChart = document.getElementById("categoryChart");
+
+    const expenseCategories = categories.filter(
+        item => !item.savings
+    );
+
+    const maxCategoryExpense = Math.max(
+        ...expenseCategories.map(item => item.used),
+        1
+    );
+
+    categoryChart.innerHTML = expenseCategories.map(item => `
+        <div class="category-chart-item">
+            <div class="category-chart-label">
+                <span>${item.name}</span>
+                <strong>${formatRupiah(item.used)}</strong>
+            </div>
+
+            <div class="category-chart-track">
+                <div
+                    class="category-chart-fill"
+                    style="width: ${(item.used / maxCategoryExpense) * 100}%">
+                </div>
+            </div>
+        </div>
+    `).join("");
+    document.getElementById("income").textContent =
+        formatRupiah(income);
+
+    document.getElementById("expense").textContent =
+        formatRupiah(expense);
+
+    document.getElementById("balance").textContent =
+        formatRupiah(income - expense);
+const selectedMonth = document.getElementById("monthFilter").value;
+console.log("Bulan dipilih:", selectedMonth);
+console.log("Tanggal transaksi:", transactions.map(item => item.date));
+
+const filteredTransactions = selectedMonth
+    ? transactions.filter(item => {
+        let transactionMonth;
+
+        if (item.date.includes("/")) {
+            const parts = item.date.split("/");
+            transactionMonth = `${parts[2]}-${parts[1]}`;
+        } else {
+            transactionMonth = item.date.slice(0, 7);
+        }
+
+        return transactionMonth === selectedMonth;
+    })
+    : transactions;
+    const searchKeyword = document
+    .getElementById("searchTransaction")
+    .value.toLowerCase().trim();
+
+const searchedTransactions = filteredTransactions.filter(item =>
+    item.name.toLowerCase().includes(searchKeyword)
+);
+    const container = document.querySelector(".empty-transaction");
+
+    if (searchedTransactions.length === 0) {
+        container.innerHTML = `
+            <div>📭</div>
+            <h3>Belum Ada Transaksi</h3>
+            <p>Transaksi yang kamu catat akan muncul di sini.</p>
+        `;
+        return;
+    }
+
+    container.innerHTML = searchedTransactions.map((item, index) => `
+        <div class="transaction-item">
+            <h3>${item.name}</h3>
+            <p>${item.date}</p>
+            <strong>
+                ${item.type === "income" ? "+" : "-"}
+                ${formatRupiah(item.amount)}
+            </strong>
+
+            <button
+                type="button"
+                onclick="deleteTransaction(transactions.indexOf(item))">
+                Hapus
+            </button>
+        </div>
+    `).join("");
+}
+function formatRupiah(number) {
+    return "Rp" + number.toLocaleString("id-ID");
+}
+
+function renderCategories() {
+    const list = document.getElementById("budgetList");
+
+    list.innerHTML = categories.map(item => `
+        <div class="budget-card">
+            <h3>${item.name}</h3>
+
+            <label>Anggaran:</label>
+            <input
+                type="number"
+                id="budget-${item.id}"
+                value="${item.budget}"
+                min="1"
+            >
+
+            <label>
+                ${item.savings
+                    ? "Jumlah uang yang sudah ditabung:"
+                    : "Jumlah uang yang sudah terpakai:"}
+            </label>
+
+            <input
+                type="number"
+                id="spent-${item.id}"
+                value="${item.used}"
+                min="0"
+                placeholder="Masukkan jumlah"
+            >
+
+            <button
+                type="button"
+                onclick="updateCategory('${item.id}')">
+                Perbarui
+            </button>
+
+            <p>
+                ${item.savings ? "Terkumpul:" : "Terpakai:"}
+                <span id="used-${item.id}">Rp0</span>
+            </p>
+
+            <p>
+                ${item.savings ? "Target tersisa:" : "Sisa:"}
+                <span id="remaining-${item.id}">
+                    ${formatRupiah(item.budget)}
+                </span>
+            </p>
+
+            <div class="progress">
+                <div
+                    class="progress-fill"
+                    id="progress-${item.id}">
+                </div>
+            </div>
+
+            <p id="status-${item.id}">
+                ${item.savings
+                    ? "Ayo mulai menabung!"
+                    : "Anggaran Masih Aman"}
+            </p>
+
+            ${item.savings
+                ? "<p>🔒 Tabungan dicatat terpisah dari uang belanja.</p>"
+                : ""}
+        </div>
+    `).join("");
+}
+
+function updateCategory(id) {
+    const item = categories.find(category => category.id === id);
+
+    const budget = Math.max(
+        1,
+        Number(document.getElementById("budget-" + id).value) || 1
+    );
+
+    const used = Math.max(
+        0,
+        Number(document.getElementById("spent-" + id).value) || 0
+    );
+    item.budget = budget;
+item.used = used;
+
+localStorage.setItem(
+    "baymonsData",
+    JSON.stringify(
+        Object.fromEntries(
+            categories.map(category => [
+                category.id,
+                {
+                    budget: category.budget,
+                    used: category.used
+                }
+            ])
+        )
+    )
+);
+
+    const remaining = Math.max(0, budget - used);
+    const percentage = Math.min((used / budget) * 100, 100);
+
+    document.getElementById("used-" + id).textContent =
+        formatRupiah(used);
+
+    document.getElementById("remaining-" + id).textContent =
+        formatRupiah(remaining);
+
+    const progress = document.getElementById("progress-" + id);
+    const status = document.getElementById("status-" + id);
+
+    progress.style.width = percentage + "%";
+
+    if (used >= budget) {
+        progress.style.backgroundColor = "#e74c3c";
+        status.textContent = item.savings
+            ? "Target tabungan tercapai!"
+            : "Sudah Habis!";
+        status.style.color = "#e74c3c";
+
+    } else if (percentage >= 80) {
+        progress.style.backgroundColor = "#f39c12";
+        status.textContent = item.savings
+            ? "Hampir mencapai target!"
+            : "Hampir Habis!";
+        status.style.color = "#f39c12";
+
+    } else {
+        progress.style.backgroundColor = "#83b99b";
+        status.textContent = item.savings
+            ? "Terus kumpulkan tabungan!"
+            : "Anggaran Masih Aman";
+        status.style.color = "#647c70";
+    }
+}
+
+renderCategories();
+
+categories.forEach(item => {
+    updateCategory(item.id);
+});
+
+renderTransactions();
+</script>
+
+</body>
+</html>

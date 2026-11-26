@@ -1,0 +1,613 @@
+
+/* PENGATURAN DASAR */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f6f0;
+    color: #303b32;
+    padding: 30px;
+}
+
+/* BAGIAN HEADER */
+header {
+    background-color: #dce8d9;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 30px;
+    color: #355b45;
+    margin-bottom: 8px;
+}
+
+header p {
+    color: #687c6b;
+}
+
+/* KONTEN UTAMA */
+main {
+    max-width: 1100px;
+    margin: auto;
+}
+
+section {
+    background-color: white;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* JUDUL */
+h2 {
+    color: #355b45;
+    margin-bottom: 12px;
+}
+
+h3 {
+    color: #687c6b;
+    margin-bottom: 12px;
+}
+
+/* ANGKA KEUANGAN */
+#balance {
+    font-size: 32px;
+    color: #355b45;
+}
+
+#income {
+    color: #31966b;
+    font-size: 22px;
+}
+
+#expense {
+    color: #d16b65;
+    font-size: 22px;
+}
+
+/* TAMPILAN HP */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    section {
+        padding: 20px;
+    }
+}
+
+/* KARTU ANGGARAN */
+.budget-card {
+    background: white;
+    padding: 24px;
+    margin: 20px 0;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+}
+
+/* JUDUL KATEGORI */
+.budget-card h3 {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+/* KOLOM INPUT */
+.budget-card input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 180px;
+    margin: 8px 0;
+}
+
+/* TOMBOL */
+.budget-card button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #647c70;
+    color: white;
+    cursor: pointer;
+}
+
+/* PROGRESS BAR */
+.progress {
+    width: 100%;
+    height: 14px;
+    background: #eeeeee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 50%;
+    background: #83b99b;
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+
+/* WELCOME SECTION */
+.welcome-section {
+    background: linear-gradient(135deg, #e5eee6, #f4f0e5);
+    padding: 30px;
+    border-radius: 22px;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.welcome-section h2 {
+    color: #40594b;
+    font-size: 26px;
+    margin: 10px 0;
+}
+
+.welcome-section p {
+    color: #718477;
+    margin: 5px 0;
+}
+
+.welcome-label {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.welcome-icon {
+    font-size: 55px;
+}
+
+/* BALANCE CARD */
+.balance-card {
+    background: linear-gradient(135deg, #526e5d, #789681);
+    padding: 28px;
+    border-radius: 22px;
+    margin: 20px 0;
+    color: white;
+    box-shadow: 0 8px 20px rgba(64, 89, 75, 0.15);
+}
+
+.balance-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.balance-card h2 {
+    font-size: 34px;
+    margin: 20px 0 8px;
+    color: white;
+}
+
+.balance-card p {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* SUMMARY CARDS */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin: 20px 0;
+}
+
+.summary-card {
+    background: white;
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.summary-icon {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.summary-card h3 {
+    font-size: 14px;
+    color: #718477;
+    margin-bottom: 10px;
+}
+
+.summary-card p {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.income-card p {
+    color: #5c9872;
+}
+
+.expense-card p {
+    color: #c47c70;
+}
+
+/* TRANSACTION SECTION */
+.transaction-section {
+    background: white;
+    padding: 25px;
+    border-radius: 22px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-heading h2 {
+    color: #40594b;
+    font-size: 20px;
+}
+
+.section-heading p {
+    color: #89988e;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.transaction-icon {
+    font-size: 28px;
+}
+
+.empty-transaction {
+    text-align: center;
+    padding: 35px 10px;
+}
+
+.empty-transaction div {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.empty-transaction h3 {
+    color: #526e5d;
+    font-size: 16px;
+}
+
+.empty-transaction p {
+    color: #9aa79e;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* BUDGET SECTION */
+.budget-section {
+    background: #f8faf7;
+    padding: 25px;
+    border-radius: 24px;
+    margin: 25px 0;
+}
+
+.budget-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.budget-label {
+    color: #8b9d8e;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.budget-heading h2 {
+    color: #40594b;
+    font-size: 24px;
+    margin: 8px 0;
+}
+
+.budget-heading p:last-child {
+    color: #89988e;
+    font-size: 13px;
+}
+
+.budget-icon {
+    font-size: 42px;
+}
+
+/* BEAUTIFUL BUDGET CARDS */
+#budgetList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.budget-card {
+    background: white;
+    padding: 22px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    border: 1px solid #edf1eb;
+    margin: 0;
+}
+
+.budget-card h3 {
+    color: #40594b;
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.budget-card label {
+    display: block;
+    color: #718477;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+.budget-card input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px;
+    border: 1px solid #e1e9e1;
+    border-radius: 10px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.budget-card button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #647c70;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.budget-card button:hover {
+    background: #40594b;
+}
+
+.budget-card p {
+    color: #718477;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+    #budgetList {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* GENERAL DASHBOARD LAYOUT */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #f2f5f0;
+    color: #40594b;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #526e5d;
+    color: white;
+    padding: 25px 7%;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+header p {
+    margin: 6px 0 0;
+    opacity: 0.8;
+}
+
+main {
+    width: 86%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+main section {
+    margin-bottom: 22px;
+}
+
+@media (max-width: 700px) {
+    main {
+        width: 92%;
+    }
+
+    .welcome-section {
+        padding: 22px;
+    }
+
+    .welcome-section h2 {
+        font-size: 21px;
+    }
+
+    .balance-card h2 {
+        font-size: 27px;
+    }
+}
+
+/* DASHBOARD STATISTIK */
+
+.statistics-section {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.statistics-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.statistics-label {
+    color: #83a994;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.statistics-heading h2 {
+    color: #40594b;
+    margin: 8px 0;
+}
+
+.statistics-heading p {
+    color: #89978e;
+}
+
+.statistics-icon {
+    font-size: 35px;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.statistics-card {
+    background: #f1f6f1;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.statistics-card h3 {
+    color: #718578;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.statistics-card p {
+    color: #40594b;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .statistics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* FINANCIAL CHART */
+
+.chart-container {
+    background: #f8faf7;
+    padding: 22px;
+    border-radius: 16px;
+    margin-top: 25px;
+}
+
+.chart-container h3 {
+    color: #40594b;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.chart-bars {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 70px;
+    min-height: 220px;
+}
+
+.chart-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100px;
+}
+
+.chart-bar {
+    width: 65px;
+    height: 10px;
+    min-height: 10px;
+    border-radius: 10px 10px 0 0;
+    transition: height 0.4s ease;
+}
+
+.income-bar {
+    background: #83b99b;
+}
+
+.expense-bar {
+    background: #e6a18c;
+}
+
+.chart-item p {
+    color: #718578;
+    font-size: 13px;
+}
+
+.chart-item strong {
+    color: #40594b;
+    font-size: 13px;
+}
+
+/* GRAFIK PENGELUARAN PER KATEGORI */
+#categoryChart {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.category-chart-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.category-chart-label {
+    display: flex;
+    justify-content: space-between;
+    color: #40594b;
+    font-size: 13px;
+}
+
+.category-chart-track {
+    width: 100%;
+    height: 12px;
+    background: #e8eee8;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.category-chart-fill {
+    height: 100%;
+    background: #83b99b;
+    border-radius: 20px;
+}
